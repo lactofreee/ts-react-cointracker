@@ -1,4 +1,10 @@
-import { Link, useParams, Outlet, useMatch } from "react-router-dom";
+import {
+  Link,
+  useParams,
+  Outlet,
+  useMatch,
+  useOutletContext,
+} from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 import { useQuery } from "react-query";
 import { fetchCoinInfo, fetchCoinPrice } from "../routes/api";
@@ -112,9 +118,8 @@ const Container = styled.div`
   margin: 0 auto;
 `;
 
-
 const Header = styled.div`
-  height: 10vh;
+  height: 5vh;
   display: flex;
   padding: 20px;
   margin: 20px;
@@ -123,7 +128,7 @@ const Header = styled.div`
 
 const Title = styled.h1`
   font-size: 40px;
-  color: ${(props)=>props.theme.accentColor};
+  color: ${(props) => props.theme.accentColor};
 `;
 
 const LoaderWrapper = styled.div`
@@ -192,8 +197,9 @@ const Item = styled.div`
   }
 `;
 
-const PriceItem = styled(Item) <IIsFetched>`
-  color: ${(props) => props.$isfetched ? props.theme.accentColor : props.theme.textColor};
+const PriceItem = styled(Item)<IIsFetched>`
+  color: ${(props) =>
+    props.$isfetched ? props.theme.accentColor : props.theme.textColor};
 `;
 
 const Description = styled.div`
@@ -233,9 +239,9 @@ function Coin() {
     isLoading: ispriceLoading,
     data: priceData,
   } = useQuery(["price", coinId], () => fetchCoinPrice(coinId!), {
-    refetchInterval:300000,
+    refetchInterval: 300000,
   });
-  
+
   // const [info, setInfo] = useState<IInfoData>();
   // const [price, setPrice] = useState<IPriceData>();
   // const [isLoading, setIsLoading] = useState(false);
@@ -265,9 +271,8 @@ function Coin() {
         </LoaderWrapper>
       ) : (
         <Wrapper>
-          
           <Header>
-            <Title>{coinId}</Title>
+            <Title>{infoData.symbol}</Title>
           </Header>
           <Section>
             <Item>

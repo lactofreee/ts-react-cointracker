@@ -60,7 +60,7 @@ function Roots() {
               </Link>
             </Container>
           </Header>
-          <Outlet context={theme} />
+          <Outlet context={{ theme: theme }} />
           <ReactQueryDevtools initialIsOpen={true} />
         </QueryClientProvider>
       </ThemeProvider>

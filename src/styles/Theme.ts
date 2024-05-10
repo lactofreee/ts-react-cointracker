@@ -7,6 +7,7 @@ export const darkTheme: DefaultTheme = {
   sectionColor: "#181b20",
   borderColor: "#425266",
   baseCardColor: "#403c3c",
+  mode: true,
 };
 
 export const lightTheme: DefaultTheme = {
@@ -16,10 +17,10 @@ export const lightTheme: DefaultTheme = {
   sectionColor: "#181b20",
   borderColor: "#C3CED7",
   baseCardColor: "white",
+  mode: false,
 };
 
 export type Theme = typeof lightTheme;
-
 
 //background white:#FFFFFF black:#010101
 //text black:#010101 white:#FFFFFF

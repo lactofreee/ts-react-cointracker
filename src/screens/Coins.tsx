@@ -1,9 +1,8 @@
-import styled, { DefaultTheme } from "styled-components";
+import styled from "styled-components";
 import { Link, Outlet, useOutletContext } from "react-router-dom";
 import { useQuery } from "react-query";
 import { fetchCoins } from "../routes/api";
 import { Helmet } from "react-helmet-async";
-import { lightTheme, darkTheme } from "../styles/Theme";
 import { useState } from "react";
 
 

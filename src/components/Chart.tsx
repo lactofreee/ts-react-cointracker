@@ -58,6 +58,11 @@ const Loader = styled.div`
   }
 `;
 
+const Container = styled.div`
+  background-color: ${(props) => props.theme.sectionColor};
+  border-radius: 10px;
+`;
+
 function Chart() {
   const { coinId } = useOutletContext<IChartContext>();
   const { isLoading, data } = useQuery<IChartData[]>(["chart", coinId], () =>
@@ -71,59 +76,39 @@ function Chart() {
           <Loader />
         </LoaderWrapper>
       ) : (
-        <ApexCharts
-          type="line"
-          series={[
-            {
-              name: "price",
-              data: data?.map((price) => parseFloat(price.close)) ?? [],
-            },
-          ]}
-          options={{
-            theme: {
-              mode: "dark",
-            },
-            tooltip: {
-              y: {
-                formatter: (value) => `$${value.toFixed(3)}`,
+        <Container>
+          <ApexCharts
+            type="candlestick"
+            series={[
+              {
+                data:
+                  data?.map((price) => ({
+                    x: price.time_close * 1000,
+                    y: [
+                      parseFloat(price.open),
+                      parseFloat(price.high),
+                      parseFloat(price.low),
+                      parseFloat(price.close),
+                    ],
+                  })) ?? [],
               },
-            },
-            chart: {
-              background: "transparent",
-              height: 500,
-              width: 500,
-              toolbar: { show: false },
-            },
-            grid: {
-              show: false,
-            },
-            stroke: {
-              curve: "smooth",
-              width: 2,
-            },
-            xaxis: {
-              axisBorder: { show: false },
-              axisTicks: { show: false },
-              type:"datetime",
-              labels: {
-                show: false,
-                datetimeFormatter: { month: "mmm 'yy" },
+            ]}
+            options={{
+              theme: {
+                mode: "dark",
               },
-              categories:
-                data?.map(
-                  (price) => new Date(price.time_close * 1000).toUTCString()
-                ) ?? [],
-            },
-            yaxis: {
-              show: false,
-            },
-            fill: {
-              type: "gradient",
-              gradient: { gradientToColors: ["#6876F6"], stops: [0, 100] },
-            },
-            colors: ["#C987C5"],
-          }}
-        />
+              chart: {
+                background: "transparent",
+                height: 500,
+                width: 500,
+                toolbar: { show: false },
+              },
+              xaxis: {
+                type: "datetime",
+              },
+            }}
+          />
+        </Container>
       )}
     </div>
   );

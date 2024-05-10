@@ -8,5 +8,6 @@ declare module "styled-components" {
     sectionColor: string;
     borderColor: string;
     baseCardColor: string;
+    mode: boolean;
   }
 }
