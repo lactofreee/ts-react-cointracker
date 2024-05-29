@@ -4,6 +4,8 @@ import { fetchCoinOhlcv } from "../routes/api";
 import ApexCharts from "react-apexcharts";
 // import { theme } from "../styles/Theme";
 import styled from "styled-components";
+import { useRecoilValue } from "recoil";
+import { isDarkAtom } from "../atoms";
 
 interface IChartContext {
   coinId: string;
@@ -59,7 +61,7 @@ const Loader = styled.div`
 `;
 
 const Container = styled.div`
-  background-color: ${(props) => props.theme.sectionColor};
+  //background-color: ${(props) => props.theme.sectionColor};
   border-radius: 10px;
 `;
 
@@ -68,7 +70,7 @@ function Chart() {
   const { isLoading, data } = useQuery<IChartData[]>(["chart", coinId], () =>
     fetchCoinOhlcv(coinId)
   );
-
+  const isDark = useRecoilValue(isDarkAtom);
   return (
     <div>
       {isLoading ? (
@@ -95,7 +97,7 @@ function Chart() {
             ]}
             options={{
               theme: {
-                mode: "dark",
+                mode: isDark ? "dark" : "light",
               },
               chart: {
                 background: "transparent",

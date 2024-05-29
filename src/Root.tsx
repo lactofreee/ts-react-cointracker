@@ -2,11 +2,12 @@ import { Outlet } from "react-router-dom";
 import styled, { ThemeProvider } from "styled-components";
 import GlobalStyles from "./styles/GlobalStyles";
 import ScrollToTop from "./components/ScrollToTop";
-import { Theme, darkTheme, lightTheme } from "./styles/Theme";
+import { darkTheme, lightTheme } from "./styles/Theme";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { isDarkAtom } from "./atoms";
 
 const Header = styled.header`
   display: flex;
@@ -41,26 +42,23 @@ const ModeBtn = styled.button`
 
 const queryClient = new QueryClient();
 function Roots() {
-  const [theme, setTheme] = useState(darkTheme);
-  const switchMode = () => {
-    setTheme((cur) => (cur === darkTheme ? lightTheme : darkTheme));
-  };
-
+  const isDark = useRecoilValue(isDarkAtom);
+  const setIsDarkAtom = useSetRecoilState(isDarkAtom);
   return (
     <div>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
         <GlobalStyles />
         <QueryClientProvider client={queryClient}>
           <ScrollToTop />
           <Header>
             <Container>
-              <ModeBtn onClick={switchMode}>Mode</ModeBtn>
               <Link to={"/"}>
                 <HomeBtn>Home</HomeBtn>
               </Link>
+              <ModeBtn onClick={()=>setIsDarkAtom((prev=>!prev))}>Mode</ModeBtn>
             </Container>
           </Header>
-          <Outlet context={{ theme: theme }} />
+          <Outlet />
           <ReactQueryDevtools initialIsOpen={true} />
         </QueryClientProvider>
       </ThemeProvider>

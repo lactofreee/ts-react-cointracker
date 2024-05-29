@@ -5,8 +5,6 @@ import { fetchCoins } from "../routes/api";
 import { Helmet } from "react-helmet-async";
 import { useState } from "react";
 
-
-
 const Container = styled.div`
   height: 100vh;
   display: flex;
@@ -96,6 +94,25 @@ const Img = styled.img`
   width: 35px;
 `;
 
+const HomeBtn = styled.div`
+  font-size: 10px;
+  background-color: ${(props) => props.theme.baseCardColor};
+  padding: 4px 8px;
+  border: 1px solid ${(props) => props.theme.borderColor};
+  border-radius: 10px;
+`;
+
+const ModeBtn = styled.button`
+  display: flex;
+  align-items: center;
+  color: ${(props) => props.theme.textColor};
+  font-size: 9px;
+  background-color: ${(props) => props.theme.baseCardColor};
+  padding: 9px 9px;
+  border: 1px solid ${(props) => props.theme.borderColor};
+  border-radius: 10px;
+`;
+
 interface ICoins {
   id: string;
   name: string;
@@ -110,8 +127,6 @@ function Coins() {
   const { isLoading, data } = useQuery<ICoins[]>("allCoins", fetchCoins);
   const curTheme = useOutletContext();
   const [mode, setMode] = useState(curTheme);
-  console.log(mode);
-  
   // const [coins, setCoins] = useState<CoinObj[]>([]);
   // const [loading, setLoading] = useState(true);
   // useEffect(() => {
@@ -128,7 +143,7 @@ function Coins() {
       <Helmet>
         <title>Coin Tracker</title>
       </Helmet>
-      
+
       {isLoading ? (
         <LoaderWrapper>
           <Loader />
